@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35818.85 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryArena", "MemoryArena.csproj", "{DAEF6652-41E5-4D43-96C0-158697E509EB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DAEF6652-41E5-4D43-96C0-158697E509EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAEF6652-41E5-4D43-96C0-158697E509EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAEF6652-41E5-4D43-96C0-158697E509EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAEF6652-41E5-4D43-96C0-158697E509EB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F1EF77A2-B644-42B8-9DD3-D222A804F2BE}
+	EndGlobalSection
+EndGlobal

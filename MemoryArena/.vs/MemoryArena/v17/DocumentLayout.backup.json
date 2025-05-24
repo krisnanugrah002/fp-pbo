@@ -1,0 +1,123 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\krisn\\PBO\\FP\\fp-pbo\\MemoryArena\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{DAEF6652-41E5-4D43-96C0-158697E509EB}|MemoryArena.csproj|c:\\users\\krisn\\pbo\\fp\\fp-pbo\\memoryarena\\gameform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DAEF6652-41E5-4D43-96C0-158697E509EB}|MemoryArena.csproj|solutionrelative:gameform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DAEF6652-41E5-4D43-96C0-158697E509EB}|MemoryArena.csproj|C:\\Users\\krisn\\PBO\\FP\\fp-pbo\\MemoryArena\\animatedform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DAEF6652-41E5-4D43-96C0-158697E509EB}|MemoryArena.csproj|solutionrelative:animatedform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DAEF6652-41E5-4D43-96C0-158697E509EB}|MemoryArena.csproj|C:\\Users\\krisn\\PBO\\FP\\fp-pbo\\MemoryArena\\homeform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DAEF6652-41E5-4D43-96C0-158697E509EB}|MemoryArena.csproj|solutionrelative:homeform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DAEF6652-41E5-4D43-96C0-158697E509EB}|MemoryArena.csproj|C:\\Users\\krisn\\PBO\\FP\\fp-pbo\\MemoryArena\\animatedform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{DAEF6652-41E5-4D43-96C0-158697E509EB}|MemoryArena.csproj|solutionrelative:animatedform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DAEF6652-41E5-4D43-96C0-158697E509EB}|MemoryArena.csproj|C:\\Users\\krisn\\PBO\\FP\\fp-pbo\\MemoryArena\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DAEF6652-41E5-4D43-96C0-158697E509EB}|MemoryArena.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DAEF6652-41E5-4D43-96C0-158697E509EB}|MemoryArena.csproj|C:\\Users\\krisn\\PBO\\FP\\fp-pbo\\MemoryArena\\profileform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DAEF6652-41E5-4D43-96C0-158697E509EB}|MemoryArena.csproj|solutionrelative:profileform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\krisn\\PBO\\FP\\fp-pbo\\MemoryArena\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\krisn\\PBO\\FP\\fp-pbo\\MemoryArena\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-24T09:58:52.461Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "GameForm.cs",
+              "DocumentMoniker": "C:\\Users\\krisn\\PBO\\FP\\fp-pbo\\MemoryArena\\GameForm.cs",
+              "RelativeDocumentMoniker": "GameForm.cs",
+              "ToolTip": "C:\\Users\\krisn\\PBO\\FP\\fp-pbo\\MemoryArena\\GameForm.cs",
+              "RelativeToolTip": "GameForm.cs",
+              "ViewState": "AgIAAEABAAAAAAAAAAAswEkBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-24T09:58:38.627Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AnimatedForm.cs",
+              "DocumentMoniker": "C:\\Users\\krisn\\PBO\\FP\\fp-pbo\\MemoryArena\\AnimatedForm.cs",
+              "RelativeDocumentMoniker": "AnimatedForm.cs",
+              "ToolTip": "C:\\Users\\krisn\\PBO\\FP\\fp-pbo\\MemoryArena\\AnimatedForm.cs",
+              "RelativeToolTip": "AnimatedForm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAgAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-24T07:30:29.286Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "HomeForm.cs",
+              "DocumentMoniker": "C:\\Users\\krisn\\PBO\\FP\\fp-pbo\\MemoryArena\\HomeForm.cs",
+              "RelativeDocumentMoniker": "HomeForm.cs",
+              "ToolTip": "C:\\Users\\krisn\\PBO\\FP\\fp-pbo\\MemoryArena\\HomeForm.cs",
+              "RelativeToolTip": "HomeForm.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAAAcwDMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-24T07:31:17.414Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AnimatedForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\krisn\\PBO\\FP\\fp-pbo\\MemoryArena\\AnimatedForm.cs",
+              "RelativeDocumentMoniker": "AnimatedForm.cs",
+              "ToolTip": "C:\\Users\\krisn\\PBO\\FP\\fp-pbo\\MemoryArena\\AnimatedForm.cs [Design]",
+              "RelativeToolTip": "AnimatedForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-24T09:59:59.023Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ProfileForm.cs",
+              "DocumentMoniker": "C:\\Users\\krisn\\PBO\\FP\\fp-pbo\\MemoryArena\\ProfileForm.cs",
+              "RelativeDocumentMoniker": "ProfileForm.cs",
+              "ToolTip": "C:\\Users\\krisn\\PBO\\FP\\fp-pbo\\MemoryArena\\ProfileForm.cs",
+              "RelativeToolTip": "ProfileForm.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-24T09:57:57.482Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
