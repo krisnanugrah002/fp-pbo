@@ -108,12 +108,14 @@ namespace MemoryArena
             lblCooldown = new Label()
             {
                 Text = "",
-                Font = new Font("Arial", 10, FontStyle.Italic),
-                ForeColor = Color.DarkRed,
-                Location = new Point(220, 60),
-                AutoSize = true,
-                BackColor = Color.Transparent
+                Font = new Font("Arial", 12, FontStyle.Bold),
+                ForeColor = Color.White,
+                Size = new Size(215, 30),
+                Location = new Point(245, 690),
+                TextAlign = ContentAlignment.MiddleCenter,
+                BackColor = Color.FromArgb(87, 191, 237)
             };
+
             this.Controls.Add(lblScore);
             this.Controls.Add(lblCooldown);
             lblScore.BringToFront();
@@ -125,8 +127,11 @@ namespace MemoryArena
             PictureBox btnSettings = CreateIcon("settings.png", new Point(70, 10), new Size(50, 50), () => MessageBox.Show("Settings"));
             btnSettings.BackColor = Color.FromArgb(87, 191, 237);
 
-            Button btnCheatReveal = CreateButton("card-back.png", new Point(80, 850), new Size(80, 80), () => RevealAll());
-            Button btnCheatFind = CreateButton("card-find.png", new Point(370, 850), new Size(80, 80), () => RevealPair());
+            Button btnCheatReveal = CreateButton("card-all-flip.png", new Point(60, 695), new Size(80, 80), () => RevealAll());
+            btnCheatReveal.BackColor = Color.FromArgb(87, 191, 237);
+
+            Button btnCheatFind = CreateButton("card-find.png", new Point(170, 695), new Size(80, 80), () => RevealPair());
+            btnCheatFind.BackColor = Color.FromArgb(87, 191, 237);
             this.Controls.Add(btnBack);
             this.Controls.Add(btnSettings);
             this.Controls.Add(btnCheatReveal);
@@ -143,7 +148,7 @@ namespace MemoryArena
             {
                 Image = Image.FromFile(Path.Combine("Assets", "live-deck.png")),
                 Size = new Size(174, 53),
-                Location = new Point(185, 5),
+                Location = new Point(325, 715),
                 SizeMode = PictureBoxSizeMode.StretchImage,
                 BackColor = Color.FromArgb(87, 191, 237)
             };
@@ -152,7 +157,7 @@ namespace MemoryArena
 
             livesPanel = new FlowLayoutPanel
             {
-                Location = new Point(208, 11),
+                Location = new Point(345, 721),
                 Size = new Size(140, 40),
                 BackColor = Color.White
             };
@@ -175,24 +180,51 @@ namespace MemoryArena
             }
         }
 
+        private double cooldownSecondsRemaining = 0;
+        private double cooldownProgress = 0;
+
+
         private void StartLifeCooldown()
         {
-            nextLifeTime = DateTime.Now.AddMinutes(5);
-            cooldownTimer = new Timer { Interval = 1000 };
-            cooldownTimer.Tick += (s, e) =>
+            cooldownSecondsRemaining += 300; // tambah 5 menit
+
+            if (cooldownTimer == null)
             {
-                var remain = nextLifeTime - DateTime.Now;
-                if (remain.TotalSeconds <= 0 && lives < 3)
+                cooldownTimer = new Timer { Interval = 1000 };
+                cooldownTimer.Tick += (s, e) =>
                 {
-                    lives++;
-                    cooldownTimer.Stop();
-                    lblCooldown.Text = "";
-                    DrawLives();
-                }
-                else lblCooldown.Text = $"Next life in {remain.Minutes:D2}:{remain.Seconds:D2}";
-            };
-            cooldownTimer.Start();
+                    if (cooldownSecondsRemaining > 0)
+                    {
+                        cooldownSecondsRemaining--;
+                        cooldownProgress++;
+                    }
+
+                    if (cooldownProgress >= 300 && lives < 3)
+                    {
+                        lives++;
+                        DrawLives();
+                        cooldownProgress -= 300;
+                    }
+
+                    if (lives >= 3)
+                    {
+                        cooldownTimer.Stop();
+                        cooldownTimer = null;
+                        cooldownSecondsRemaining = 0;
+                        cooldownProgress = 0;
+                        lblCooldown.Text = "";
+                        return;
+                    }
+
+                    TimeSpan span = TimeSpan.FromSeconds(cooldownSecondsRemaining);
+                    lblCooldown.Text = $" {span.Minutes:D2}:{span.Seconds:D2}";
+                };
+                cooldownTimer.Start();
+            }
         }
+
+
+
 
         private void ShowAllCardsInitially()
         {
@@ -232,25 +264,61 @@ namespace MemoryArena
             else
             {
                 firstCard.HideCard(); secondCard.HideCard();
-                streak = 0; lives--;
+                streak = 0;
+                lives--;
                 DrawLives();
-                if (lives < 3) StartLifeCooldown();
-                if (lives == 0) { MessageBox.Show("Game Over"); this.Close(); }
+
+                if (lives <= 0)
+                {
+                    cooldownTimer?.Stop();
+                    MessageBox.Show("Game Over");
+                    this.Close();
+                    return;
+                }
+
+                if (lives < 3)
+                    StartLifeCooldown();
             }
+
             lblScore.Text = $"{score}";
             firstCard = secondCard = null;
         }
 
-        private void RevealAll()
+
+        private async void RevealAll()
         {
-            foreach (var c in cards) if (!c.IsMatched) c.FlipTemporarily();
+            foreach (var c in cards)
+            {
+                if (!c.IsMatched) c.Flip();
+            }
+
+            await Task.Delay(5000); // tunggu 5 detik
+
+            foreach (var c in cards)
+            {
+                if (!c.IsMatched) c.HideCard();
+            }
         }
 
-        private void RevealPair()
+
+        private async void RevealPair()
         {
-            var pair = cards.Where(c => !c.IsMatched).GroupBy(c => c.ID).FirstOrDefault(g => g.Count() == 2);
-            if (pair != null) foreach (var c in pair) c.FlipTemporarily();
+            var pair = cards
+                .Where(c => !c.IsMatched && !c.IsFlipped)
+                .GroupBy(c => c.ID)
+                .FirstOrDefault(g => g.Count() == 2);
+
+            if (pair != null)
+            {
+                foreach (var c in pair) c.Flip();
+                await Task.Delay(2500);
+                foreach (var c in pair)
+                {
+                    if (!c.IsMatched) c.HideCard();
+                }
+            }
         }
+
 
         private Button CreateButton(string asset, Point location, Size size, Action action)
         {
