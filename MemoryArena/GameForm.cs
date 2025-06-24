@@ -34,6 +34,8 @@ namespace MemoryArena
         private Label lblCheatRevealCooldown;
         private Label lblCheatFindCooldown;
 
+        private Dictionary<string, ICheat> cheatMap;
+
 
         public GameForm()
         {
@@ -43,11 +45,18 @@ namespace MemoryArena
             this.StartPosition = FormStartPosition.CenterScreen;
 
             InitBackground();
-            InitDeck();
+            InitCardDeck();
             InitCards();
             InitControls();
             InitLives();
             ShowAllCardsInitially();
+
+            cheatMap = new Dictionary<string, ICheat>
+            {
+                { "RevealAll", new RevealAllCheat() },
+                { "FindPair", new FindPairCheat() }
+            };
+
         }
 
         private void InitBackground()
@@ -62,7 +71,7 @@ namespace MemoryArena
             backgroundLayer.SendToBack();
         }
 
-        private void InitDeck()
+        private void InitCardDeck()
         {
             deckLayer = new PictureBox
             {
@@ -109,7 +118,7 @@ namespace MemoryArena
 
         private void InitControls()
         {
-            lblScore = new Label()
+            lblScore = new Label() //label untuk skor
             {
                 Text = "0",
                 Font = new Font("Raleway Black", 35),
@@ -118,7 +127,10 @@ namespace MemoryArena
                 AutoSize = true,
                 BackColor = Color.FromArgb(87, 191, 237)
             };
-            lblCooldown = new Label()
+            this.Controls.Add(lblScore);
+            lblScore.BringToFront();
+
+            lblCooldown = new Label() //label untuk cooldown nyawa
             {
                 Text = "",
                 Font = new Font("Arial", 12, FontStyle.Bold),
@@ -128,21 +140,25 @@ namespace MemoryArena
                 TextAlign = ContentAlignment.MiddleCenter,
                 BackColor = Color.FromArgb(87, 191, 237)
             };
-
-            this.Controls.Add(lblScore);
             this.Controls.Add(lblCooldown);
-            lblScore.BringToFront();
             lblCooldown.BringToFront();
 
             PictureBox btnBack = CreateIcon("back-home.png", new Point(10, 10), new Size(50, 50), () => this.Close());
             btnBack.BackColor = Color.FromArgb(87, 191, 237);
+            this.Controls.Add(btnBack);
+            btnBack.BringToFront();
 
             PictureBox btnSettings = CreateIcon("settings.png", new Point(70, 10), new Size(50, 50), () => MessageBox.Show("Settings"));
             btnSettings.BackColor = Color.FromArgb(87, 191, 237);
+            this.Controls.Add(btnSettings);
+            btnSettings.BringToFront();
 
             Button btnCheatReveal = CreateButton("card-all-flip.png", new Point(60, 708), new Size(70, 70), () => UseCheatReveal());
             btnCheatReveal.BackColor = Color.FromArgb(87, 191, 237);
-            lblCheatRevealCooldown = new Label()
+            this.Controls.Add(btnCheatReveal);
+            btnCheatReveal.BringToFront();
+
+            lblCheatRevealCooldown = new Label() //label untuk cooldown cheat reveal
             {
                 Text = "",
                 Font = new Font("Arial", 10, FontStyle.Bold),
@@ -158,7 +174,11 @@ namespace MemoryArena
 
             Button btnCheatFind = CreateButton("card-find.png", new Point(170, 708), new Size(70, 70), () => UseCheatFind());
             btnCheatFind.BackColor = Color.FromArgb(87, 191, 237);
-            lblCheatFindCooldown = new Label()
+            this.Controls.Add(btnCheatFind);
+            btnCheatFind.BringToFront();
+
+
+            lblCheatFindCooldown = new Label() //label untuk cooldown cheat find
             {
                 Text = "",
                 Font = new Font("Arial", 10, FontStyle.Bold),
@@ -169,21 +189,12 @@ namespace MemoryArena
                 BackColor = Color.FromArgb(87, 191, 237)
             };
             this.Controls.Add(lblCheatFindCooldown);
-            lblCheatFindCooldown.BringToFront();
-
-            this.Controls.Add(btnBack);
-            this.Controls.Add(btnSettings);
-            this.Controls.Add(btnCheatReveal);
-            this.Controls.Add(btnCheatFind);
-            btnBack.BringToFront();
-            btnSettings.BringToFront();
-            btnCheatReveal.BringToFront();
-            btnCheatFind.BringToFront();
+            lblCheatFindCooldown.BringToFront();  
         }
 
         private void InitLives()
         {
-            liveDeckLayer = new PictureBox
+            liveDeckLayer = new PictureBox //deck untuk nyawa
             {
                 Image = Image.FromFile(Path.Combine("Assets", "live-deck.png")),
                 Size = new Size(174, 53),
@@ -194,7 +205,7 @@ namespace MemoryArena
             this.Controls.Add(liveDeckLayer);
             liveDeckLayer.BringToFront();
 
-            livesPanel = new FlowLayoutPanel
+            livesPanel = new FlowLayoutPanel //panel untuk menampilkan nyawa
             {
                 Location = new Point(345, 721),
                 Size = new Size(140, 40),
@@ -205,7 +216,7 @@ namespace MemoryArena
             DrawLives();
         }
 
-        private void DrawLives()
+        private void DrawLives() //looping untuk add nyawa
         {
             livesPanel.Controls.Clear();
             for (int i = 0; i < lives; i++)
@@ -219,13 +230,12 @@ namespace MemoryArena
             }
         }
 
+
         private double cooldownSecondsRemaining = 0;
         private double cooldownProgress = 0;
-
-
         private void StartLifeCooldown()
         {
-            cooldownSecondsRemaining += 300; // tambah 5 menit
+            cooldownSecondsRemaining += 300; // cooldown nyawa 5 menit
 
             if (cooldownTimer == null)
             {
@@ -262,13 +272,10 @@ namespace MemoryArena
             }
         }
 
-
-
-
-        private void ShowAllCardsInitially()
+        private void ShowAllCardsInitially() //membuka kartu diawal permainan
         {
             foreach (var c in cards) c.Flip();
-            revealTimer = new Timer { Interval = 8000 };
+            revealTimer = new Timer { Interval = 8000 }; //8 detik
             revealTimer.Tick += (s, e) =>
             {
                 revealTimer.Stop();
@@ -277,7 +284,7 @@ namespace MemoryArena
             revealTimer.Start();
         }
 
-        private void Card_Click(object sender, EventArgs e)
+        private void Card_Click(object sender, EventArgs e) //event handler untuk klik kartu
         {
             var clicked = sender as Card;
             if (clicked.IsFlipped || clicked.IsMatched) return;
@@ -293,7 +300,7 @@ namespace MemoryArena
             }
         }
 
-        private void CheckMatch()
+        private void CheckMatch() // method untuk cek apakah kartu cocok
         {
             if (firstCard.ID == secondCard.ID)
             {
@@ -334,42 +341,6 @@ namespace MemoryArena
             firstCard = secondCard = null;
         }
 
-
-        private async void RevealAll()
-        {
-            foreach (var c in cards)
-            {
-                if (!c.IsMatched) c.Flip();
-            }
-
-            await Task.Delay(5000); // tunggu 5 detik
-
-            foreach (var c in cards)
-            {
-                if (!c.IsMatched) c.HideCard();
-            }
-        }
-
-
-        private async void RevealPair()
-        {
-            var pair = cards
-                .Where(c => !c.IsMatched && !c.IsFlipped)
-                .GroupBy(c => c.ID)
-                .FirstOrDefault(g => g.Count() == 2);
-
-            if (pair != null)
-            {
-                foreach (var c in pair) c.Flip();
-                await Task.Delay(2500);
-                foreach (var c in pair)
-                {
-                    if (!c.IsMatched) c.HideCard();
-                }
-            }
-        }
-
-
         private Button CreateButton(string asset, Point location, Size size, Action action)
         {
             var b = new Button
@@ -400,13 +371,13 @@ namespace MemoryArena
             return p;
         }
 
-        private void UseCheatReveal()
+        private async void UseCheatReveal()
         {
             if (cheatRevealCount > 0)
             {
                 cheatRevealCount--;
-                RevealAll();
-                StartCheatRevealCooldown(); 
+                await cheatMap["RevealAll"].Execute(cards);
+                StartCheatRevealCooldown();
             }
         }
 
@@ -445,14 +416,13 @@ namespace MemoryArena
             }
         }
 
-
-        private void UseCheatFind()
+        private async void UseCheatFind()
         {
             if (cheatFindCount > 0)
             {
                 cheatFindCount--;
-                RevealPair();
-                StartCheatFindCooldown(); 
+                await cheatMap["FindPair"].Execute(cards);
+                StartCheatFindCooldown();
             }
         }
 
@@ -490,6 +460,7 @@ namespace MemoryArena
                 cheatFindTimer.Start();
             }
         }
+
         private bool CheckWin()
         {
             return cards.All(c => c.IsMatched);
@@ -541,26 +512,35 @@ namespace MemoryArena
             if (!IsMatched) HideCard();
         }
 
-        private async Task AnimateFlip(Action midAction)
+
+        private async Task AnimateFlip(Action midAction) // Animasi flip kartu
         {
             int originalWidth = this.Width;
+            int centerX = this.Left + this.Width / 2;
 
             // Shrink
-            for (int i = originalWidth; i >= 0; i -= 10)
+            for (int i = originalWidth; i >= 10; i -= 10)
             {
                 await Task.Delay(10);
-                this.Invoke((MethodInvoker)(() => this.Width = i));
+                this.Invoke((MethodInvoker)(() => {
+                    this.Width = i;
+                    this.Left = centerX - this.Width / 2;
+                }));
             }
 
             // Change image
             midAction();
 
             // Expand
-            for (int i = 0; i <= originalWidth; i += 10)
+            for (int i = 10; i <= originalWidth; i += 10)
             {
                 await Task.Delay(10);
-                this.Invoke((MethodInvoker)(() => this.Width = i));
+                this.Invoke((MethodInvoker)(() => {
+                    this.Width = i;
+                    this.Left = centerX - this.Width / 2;
+                }));
             }
         }
+
     }
 }

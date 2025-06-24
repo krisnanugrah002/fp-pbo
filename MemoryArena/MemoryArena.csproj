@@ -49,10 +49,12 @@
     <Compile Include="AnimatedForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Cheat\Cheat.cs" />
     <Compile Include="HF-class\HF-FontLoader.cs" />
     <Compile Include="HF-class\HF-ProfileDeck.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Cheat\ICheat.cs" />
     <Compile Include="PF-class\PF-ProfileInfo.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -109,7 +111,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="Assets\App.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\back-home.png">
