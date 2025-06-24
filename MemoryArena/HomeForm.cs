@@ -1,5 +1,4 @@
-﻿// HomeForm_Revised.cs - Koreksi Transparansi dan Layering + Warna Custom Button + Ukuran Custom More-Profile
-using System;
+﻿using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -10,15 +9,7 @@ namespace MemoryArena
 {
     public class HomeForm : Form
     {
-        private bool hasResumeData = false;
-        private int lives = 3;
-        private Label lblUsername, lblRank, lblPoints;
-        private FlowLayoutPanel livesPanel;
-        private Timer cooldownTimer;
-        private DateTime nextLifeTime;
-        private Font ralewayFont;
-
-
+        private ProfileDeck profilePanel;
 
         public HomeForm()
         {
@@ -30,12 +21,16 @@ namespace MemoryArena
             this.BackgroundImage = Image.FromFile(Path.Combine("Assets", "background.png"));
             this.BackgroundImageLayout = ImageLayout.Stretch;
 
-            ralewayFont = LoadRalewayBlack(30f);
+            InitUI();
+        }
+
+        private void InitUI()
+        {
+            Font ralewayFont = FontLoader.LoadRalewayBlack(30f);
 
             InitBaseLayers();
-            InitProfile();
+            InitProfile(ralewayFont);
             InitButtons();
-            InitLives();
         }
 
         private void InitBaseLayers()
@@ -63,77 +58,11 @@ namespace MemoryArena
             settings.BringToFront();
         }
 
-        private void InitProfile()
+        private void InitProfile(Font ralewayFont)
         {
-            PictureBox profileDeck = new PictureBox()
-            {
-                Image = Image.FromFile(Path.Combine("Assets", "profile-deck.png")),
-                Size = new Size(498, 212),
-                Location = new Point(30, 70),
-                SizeMode = PictureBoxSizeMode.StretchImage,
-                BackColor = Color.Transparent,
-            };
-            this.Controls.Add(profileDeck);
-            profileDeck.BringToFront();
-
-            PictureBox profilePic = new PictureBox()
-            {
-                Image = Image.FromFile(Path.Combine("Assets", "profile.png")),
-                Size = new Size(100, 100),
-                Location = new Point(70, 120),
-                SizeMode = PictureBoxSizeMode.StretchImage,
-                BackColor = Color.White,
-            };
-            this.Controls.Add(profilePic);
-            profilePic.BringToFront();
-
-            lblUsername = new Label()
-            {
-                Text = "krzzna",
-                Font = ralewayFont,
-                ForeColor = Color.Black,
-                Location = new Point(170, 110),
-                AutoSize = true,
-                BackColor = Color.White,
-            };
-            this.Controls.Add(lblUsername);
-            lblUsername.BringToFront();
-
-            lblRank = new Label()
-            {
-                Text = "Rank: Bronze",
-                Font = new Font("Arial", 15),
-                ForeColor = Color.Black,
-                Location = new Point(177, 165),
-                AutoSize = true,
-                BackColor = Color.White,
-            };
-            this.Controls.Add(lblRank);
-            lblRank.BringToFront();
-
-            lblPoints = new Label()
-            {
-                Text = "Points: 0",
-                Font = new Font("Arial", 15),
-                ForeColor = Color.Black,
-                Location = new Point(177, 190),
-                AutoSize = true,
-                BackColor = Color.White,
-            };
-            this.Controls.Add(lblPoints);
-            lblPoints.BringToFront();
-
-            Button btnMore = CreateImageButton("more-profile.png",
-                new Point(420, 145),
-                new Size(28, 56), () =>
-                {
-                    ProfileForm profileForm = new ProfileForm();
-                    profileForm.Show();
-                });
-
-            btnMore.BackColor = Color.White;
-            this.Controls.Add(btnMore);
-            btnMore.BringToFront();
+            profilePanel = new ProfileDeck(ralewayFont);
+            this.Controls.Add(profilePanel);
+            profilePanel.BringToFront();
         }
 
         private void InitButtons()
@@ -143,67 +72,10 @@ namespace MemoryArena
             this.Controls.Add(btnStart);
             btnStart.BringToFront();
 
-            if (hasResumeData)
-            {
-                Button btnResume = CreateImageButton("button-resumegame.png", new Point(170, 260), new Size(315, 100), () => MessageBox.Show("Resume Game"));
-                btnResume.BackColor = Color.LightGreen;
-                this.Controls.Add(btnResume);
-                btnResume.BringToFront();
-            }
-
             Button btnBattle = CreateImageButton("button-endgame.png", new Point(115, 480), new Size(315, 100), () => MessageBox.Show("Battle Mode"));
             btnBattle.BackColor = Color.White;
             this.Controls.Add(btnBattle);
             btnBattle.BringToFront();
-        }
-
-        private void InitLives()
-        {
-            livesPanel = new FlowLayoutPanel()
-            {
-                Location = new Point(350, 10),
-                Size = new Size(150, 50),
-                BackColor = Color.Transparent
-            };
-            this.Controls.Add(livesPanel);
-            livesPanel.BringToFront();
-            DrawLives();
-        }
-
-        private void DrawLives()
-        {
-            livesPanel.Controls.Clear();
-            for (int i = 0; i < lives; i++)
-            {
-                PictureBox liveIcon = new PictureBox()
-                {
-                    Image = Image.FromFile(Path.Combine("Assets", "live.png")),
-                    Size = new Size(43, 43),
-                    SizeMode = PictureBoxSizeMode.StretchImage
-                };
-                livesPanel.Controls.Add(liveIcon);
-            }
-
-            if (lives < 3)
-            {
-                StartLifeCooldown();
-            }
-        }
-
-        private void StartLifeCooldown()
-        {
-            nextLifeTime = DateTime.Now.AddMinutes(5);
-            cooldownTimer = new Timer { Interval = 1000 };
-            cooldownTimer.Tick += (s, e) =>
-            {
-                if (DateTime.Now >= nextLifeTime)
-                {
-                    lives++;
-                    cooldownTimer.Stop();
-                    DrawLives();
-                }
-            };
-            cooldownTimer.Start();
         }
 
         private Button CreateImageButton(string assetName, Point location, Size size, Action onClick)
@@ -222,11 +94,11 @@ namespace MemoryArena
             return button;
         }
 
-        private Font LoadRalewayBlack(float size)
+        protected override void OnActivated(EventArgs e)
         {
-            PrivateFontCollection pfc = new PrivateFontCollection();
-            pfc.AddFontFile(Path.Combine("Assets", "Raleway-Black.ttf"));
-            return new Font(pfc.Families[0], size, FontStyle.Regular);
+            base.OnActivated(e);
+            profilePanel.PointsLabel.Text = $"Points: {PlayerData.Score}";
+
         }
     }
 }

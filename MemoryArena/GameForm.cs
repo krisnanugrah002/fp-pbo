@@ -322,9 +322,16 @@ namespace MemoryArena
                     StartLifeCooldown();
             }
 
+            if (CheckWin())
+            {
+                PlayerData.Score += score;
+                MessageBox.Show("Selamat! Game selesai!");
+                this.Close();
+                return;
+            }
+
             lblScore.Text = $"{score}";
             firstCard = secondCard = null;
-            PlayerData.Score = score;
         }
 
 
@@ -482,6 +489,10 @@ namespace MemoryArena
                 };
                 cheatFindTimer.Start();
             }
+        }
+        private bool CheckWin()
+        {
+            return cards.All(c => c.IsMatched);
         }
     }
 

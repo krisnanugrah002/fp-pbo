@@ -49,6 +49,16 @@
     <Compile Include="AnimatedForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="HF-class\HF-FontLoader.cs" />
+    <Compile Include="HF-class\HF-ProfileDeck.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PF-class\PF-ProfileInfo.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PF-class\PF-SkinCollection.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="PlayerData.cs" />
     <Compile Include="SettingsForm.cs">
       <SubType>Form</SubType>
@@ -74,6 +84,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Content Include="Assets\Arial.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\information-deck.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\information.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\live-deck.png">
@@ -265,6 +281,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\sound-wrongmtach.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\sound.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\ui-home.png">

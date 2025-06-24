@@ -29,29 +29,51 @@ namespace MemoryArena
             {
                 Text = "Settings",
                 Font = new Font("Arial", 24, FontStyle.Bold),
-                Location = new Point(200, 50),
+                Location = new Point(200, 25),
                 AutoSize = true,
                 BackColor = Color.Transparent,
                 ForeColor = Color.White
             };
             this.Controls.Add(header);
 
-            lblBackgroundNoise = CreateLabel("Background Noise", new Point(50, 150));
-            trackBackgroundNoise = CreateTrackBar(new Point(50, 190));
+            lblBackgroundNoise = CreateLabel("Background Noise", new Point(50, 170));
+            trackBackgroundNoise = CreateTrackBar(new Point(50, 210));
 
-            lblGameplaySound = CreateLabel("Gameplay Sound", new Point(50, 260));
-            trackGameplaySound = CreateTrackBar(new Point(50, 300));
+            lblGameplaySound = CreateLabel("Gameplay Sound", new Point(50, 280));
+            trackGameplaySound = CreateTrackBar(new Point(50, 320));
 
-            Button infoButton = new Button()
+            PictureBox picSound = new PictureBox
             {
-                Text = "Information",
-                Font = new Font("Arial", 14, FontStyle.Bold),
-                Size = new Size(200, 50),
-                Location = new Point(170, 400),
-                BackColor = Color.White
+                Image = Image.FromFile(Path.Combine("Assets", "sound.png")),
+                Size = new Size(77, 77),
+                Location = new Point(225, 75),
+                SizeMode = PictureBoxSizeMode.StretchImage,
+                BackColor = Color.FromArgb(87, 191, 237)
             };
-            infoButton.Click += (s, e) => ShowAppInfo();
-            this.Controls.Add(infoButton);
+            this.Controls.Add(picSound);
+            picSound.BringToFront();
+
+            PictureBox picInformation = new PictureBox
+            {
+                Image = Image.FromFile(Path.Combine("Assets", "information.png")),
+                Size = new Size(77, 77),
+                Location = new Point(225, 410),
+                SizeMode = PictureBoxSizeMode.StretchImage,
+                BackColor = Color.FromArgb(87, 191, 237)
+            };
+            this.Controls.Add(picInformation);
+            picInformation.BringToFront();
+
+            PictureBox picInformationDeck = new PictureBox
+            {
+                Image = Image.FromFile(Path.Combine("Assets", "information-deck.png")),
+                Size = new Size(430, 271),
+                Location = new Point(50, 500),
+                SizeMode = PictureBoxSizeMode.StretchImage,
+                BackColor = Color.FromArgb(87, 191, 237)
+            };
+            this.Controls.Add(picInformationDeck);
+            picInformationDeck.BringToFront();
 
             PictureBox btnBack = new PictureBox()
             {
@@ -94,18 +116,6 @@ namespace MemoryArena
             };
             this.Controls.Add(bar);
             return bar;
-        }
-
-        private void ShowAppInfo()
-        {
-            MessageBox.Show(
-                "Memory Arena adalah game edukasi berbasis puzzle memory.\n\n" +
-                "Fitur:\n- Tanpa iklan\n- Leaderboard\n- Sistem poin dan nyawa\n" +
-                "Cocok untuk semua usia, membantu meningkatkan daya ingat dan fokus!",
-                "Tentang Aplikasi",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information
-            );
         }
     }
 }

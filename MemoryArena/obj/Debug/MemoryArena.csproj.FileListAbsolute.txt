@@ -136,3 +136,6 @@ C:\Users\krisn\PBO\fp-rev\fp-pbo\MemoryArena\bin\Debug\Assets\sound-cheat.wav
 C:\Users\krisn\PBO\fp-rev\fp-pbo\MemoryArena\bin\Debug\Assets\sound-click.wav
 C:\Users\krisn\PBO\fp-rev\fp-pbo\MemoryArena\bin\Debug\Assets\sound-flip.wav
 C:\Users\krisn\PBO\fp-rev\fp-pbo\MemoryArena\bin\Debug\Assets\sound-wrongmtach.wav
+C:\Users\krisn\PBO\fp-rev\fp-pbo\MemoryArena\bin\Debug\Assets\information-deck.png
+C:\Users\krisn\PBO\fp-rev\fp-pbo\MemoryArena\bin\Debug\Assets\information.png
+C:\Users\krisn\PBO\fp-rev\fp-pbo\MemoryArena\bin\Debug\Assets\sound.png
