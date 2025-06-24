@@ -1,4 +1,4 @@
-﻿// GameForm.cs - Scaled deck and cards down by 10% without changing ratio (full version with customizable back/settings size)
+﻿
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -21,6 +21,19 @@ namespace MemoryArena
         private Timer cooldownTimer, revealTimer;
         private DateTime nextLifeTime;
         private Panel cardPanel;
+
+        private int cheatRevealCount = 3;
+        private int cheatFindCount = 3;
+
+        private Timer cheatRevealTimer;
+        private Timer cheatFindTimer;
+
+        private double revealCooldownRemaining = 0;
+        private double findCooldownRemaining = 0;
+
+        private Label lblCheatRevealCooldown;
+        private Label lblCheatFindCooldown;
+
 
         public GameForm()
         {
@@ -127,11 +140,37 @@ namespace MemoryArena
             PictureBox btnSettings = CreateIcon("settings.png", new Point(70, 10), new Size(50, 50), () => MessageBox.Show("Settings"));
             btnSettings.BackColor = Color.FromArgb(87, 191, 237);
 
-            Button btnCheatReveal = CreateButton("card-all-flip.png", new Point(60, 695), new Size(80, 80), () => RevealAll());
+            Button btnCheatReveal = CreateButton("card-all-flip.png", new Point(60, 708), new Size(70, 70), () => UseCheatReveal());
             btnCheatReveal.BackColor = Color.FromArgb(87, 191, 237);
+            lblCheatRevealCooldown = new Label()
+            {
+                Text = "",
+                Font = new Font("Arial", 10, FontStyle.Bold),
+                ForeColor = Color.White,
+                Size = new Size(80, 20),
+                Location = new Point(60, 688),
+                TextAlign = ContentAlignment.MiddleCenter,
+                BackColor = Color.FromArgb(87, 191, 237)
+            };
+            this.Controls.Add(lblCheatRevealCooldown);
+            lblCheatRevealCooldown.BringToFront();
 
-            Button btnCheatFind = CreateButton("card-find.png", new Point(170, 695), new Size(80, 80), () => RevealPair());
+
+            Button btnCheatFind = CreateButton("card-find.png", new Point(170, 708), new Size(70, 70), () => UseCheatFind());
             btnCheatFind.BackColor = Color.FromArgb(87, 191, 237);
+            lblCheatFindCooldown = new Label()
+            {
+                Text = "",
+                Font = new Font("Arial", 10, FontStyle.Bold),
+                ForeColor = Color.White,
+                Size = new Size(80, 20),
+                Location = new Point(170, 688),
+                TextAlign = ContentAlignment.MiddleCenter,
+                BackColor = Color.FromArgb(87, 191, 237)
+            };
+            this.Controls.Add(lblCheatFindCooldown);
+            lblCheatFindCooldown.BringToFront();
+
             this.Controls.Add(btnBack);
             this.Controls.Add(btnSettings);
             this.Controls.Add(btnCheatReveal);
@@ -266,6 +305,9 @@ namespace MemoryArena
                 firstCard.HideCard(); secondCard.HideCard();
                 streak = 0;
                 lives--;
+                PlayerData.Lives--;
+                if (PlayerData.Lives < 3 && PlayerData.NextLifeTime == null)
+                    PlayerData.NextLifeTime = DateTime.Now.AddMinutes(5);
                 DrawLives();
 
                 if (lives <= 0)
@@ -282,6 +324,7 @@ namespace MemoryArena
 
             lblScore.Text = $"{score}";
             firstCard = secondCard = null;
+            PlayerData.Score = score;
         }
 
 
@@ -348,6 +391,97 @@ namespace MemoryArena
             };
             p.Click += (s, e) => action();
             return p;
+        }
+
+        private void UseCheatReveal()
+        {
+            if (cheatRevealCount > 0)
+            {
+                cheatRevealCount--;
+                RevealAll();
+                StartCheatRevealCooldown(); 
+            }
+        }
+
+        private void StartCheatRevealCooldown()
+        {
+            revealCooldownRemaining += 180;
+
+            if (cheatRevealTimer == null)
+            {
+                cheatRevealTimer = new Timer { Interval = 1000 };
+                cheatRevealTimer.Tick += (s, e) =>
+                {
+                    if (revealCooldownRemaining > 0)
+                    {
+                        revealCooldownRemaining--;
+                        TimeSpan span = TimeSpan.FromSeconds(revealCooldownRemaining);
+                        lblCheatRevealCooldown.Text = $"CD: {span.Minutes:D2}:{span.Seconds:D2}";
+                    }
+
+                    if (revealCooldownRemaining <= 0)
+                    {
+                        cheatRevealCount++;
+                        if (cheatRevealCount < 3)
+                        {
+                            revealCooldownRemaining += 180;
+                        }
+                        else
+                        {
+                            cheatRevealTimer.Stop();
+                            cheatRevealTimer = null;
+                            lblCheatRevealCooldown.Text = "";
+                        }
+                    }
+                };
+                cheatRevealTimer.Start();
+            }
+        }
+
+
+        private void UseCheatFind()
+        {
+            if (cheatFindCount > 0)
+            {
+                cheatFindCount--;
+                RevealPair();
+                StartCheatFindCooldown(); 
+            }
+        }
+
+        private void StartCheatFindCooldown()
+        {
+            findCooldownRemaining += 180;
+
+            if (cheatFindTimer == null)
+            {
+                cheatFindTimer = new Timer { Interval = 1000 };
+                cheatFindTimer.Tick += (s, e) =>
+                {
+                    if (findCooldownRemaining > 0)
+                    {
+                        findCooldownRemaining--;
+                        TimeSpan span = TimeSpan.FromSeconds(findCooldownRemaining);
+                        lblCheatFindCooldown.Text = $"CD: {span.Minutes:D2}:{span.Seconds:D2}";
+                    }
+
+                    if (findCooldownRemaining <= 0)
+                    {
+                        cheatFindCount++;
+                        if (cheatFindCount < 3)
+                        {
+                            findCooldownRemaining += 180;
+                        }
+                        else
+                        {
+                            cheatFindTimer.Stop();
+                            cheatFindTimer = null;
+                            lblCheatFindCooldown.Text = "";
+                        }
+                    }
+                };
+                cheatFindTimer.Start();
+            }
         }
     }
 

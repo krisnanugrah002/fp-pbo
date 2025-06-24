@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Drawing.Text;
+using System.Media;
 
 namespace MemoryArena
 {
@@ -16,6 +17,8 @@ namespace MemoryArena
         private Timer cooldownTimer;
         private DateTime nextLifeTime;
         private Font ralewayFont;
+
+
 
         public HomeForm()
         {
@@ -55,7 +58,7 @@ namespace MemoryArena
                 SizeMode = PictureBoxSizeMode.StretchImage,
                 BackColor = Color.Transparent
             };
-            settings.Click += (s, e) => MessageBox.Show("Settings clicked");
+            settings.Click += (s, e) => new SettingsForm().ShowDialog();
             this.Controls.Add(settings);
             settings.BringToFront();
         }
@@ -120,7 +123,14 @@ namespace MemoryArena
             this.Controls.Add(lblPoints);
             lblPoints.BringToFront();
 
-            Button btnMore = CreateImageButton("more-profile.png", new Point(420, 145), new Size(28, 56), () => MessageBox.Show("More Profile"));
+            Button btnMore = CreateImageButton("more-profile.png",
+                new Point(420, 145),
+                new Size(28, 56), () =>
+                {
+                    ProfileForm profileForm = new ProfileForm();
+                    profileForm.Show();
+                });
+
             btnMore.BackColor = Color.White;
             this.Controls.Add(btnMore);
             btnMore.BringToFront();
